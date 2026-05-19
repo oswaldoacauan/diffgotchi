@@ -3,17 +3,18 @@ import type { ReactNode } from "react";
 export const INSTALL_COMMAND = "brew install oswaldoacauan/diffgotchi/diffgotchi";
 
 export const OG_IMAGE = "https://diffgotchi.dev/demos/diff-view.png";
+export const SITE_TITLE = "diffgotchi — a terminal diff reviewer for the code your agent writes.";
 
 export function MetaTags() {
   return (
     <>
-      <title>Diffgotchi</title>
+      <title>{SITE_TITLE}</title>
       <meta
         name="description"
         content="A terminal diff reviewer for code your agent writes. Drop comments, hand the loop back, come back to a green panel."
       />
       <meta property="og:type" content="website" />
-      <meta property="og:title" content="Diffgotchi" />
+      <meta property="og:title" content={SITE_TITLE} />
       <meta
         property="og:description"
         content="Review your agent's diff in the terminal. Drop comments, hand the loop back."
@@ -23,7 +24,7 @@ export function MetaTags() {
       <meta property="og:image:height" content="1080" />
       <meta property="og:image:alt" content="Diffgotchi TUI diff view with syntax highlighting" />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="Diffgotchi" />
+      <meta name="twitter:title" content={SITE_TITLE} />
       <meta name="twitter:description" content="Review your agent's diff in the terminal." />
       <meta name="twitter:image" content={OG_IMAGE} />
     </>
