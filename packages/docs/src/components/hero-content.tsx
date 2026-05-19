@@ -57,7 +57,7 @@ export function HeroContent({ align = "left" }: { align?: "left" | "right" }) {
           <span className="text-green">$</span>
           <code className="text-ctp-text">
             <span className="text-blue">brew</span> <span className="text-mauve">install</span>{" "}
-            <span className="text-yellow">oswaldoacauan/diffgotchi/diffgotchi</span>
+            <span className="text-yellow">oswaldoacauan/tap/diffgotchi</span>
           </code>
           <CopyButton text={INSTALL_COMMAND} />
         </div>

@@ -1,143 +1,152 @@
-# Diffgotchi
+<h1 align="center">diffgotchi</h1>
 
-A terminal diff reviewer for the code your agent writes.
+<p align="center">
+  <img src="packages/docs/public/favicon-256.png" alt="diffgotchi" width="100" />
+</p>
 
-Review your agent's diff where the work already is. Scroll the changes, drop
-comments on lines that need a second look, mark files done, then hand the loop
-back to your agent. Come back to a green panel.
+<p align="center">
+  <a href="https://diffgotchi.dev">diffgotchi.dev</a> · <a href="#install">install</a> · <a href="#quick-start">quick start</a> · <a href="#what-you-get">what you get</a> · <a href="#agents-can-use-diffgotchi-too">agents</a> · <a href="#configuration">configuration</a> · <a href="#docs">docs</a>
+</p>
 
-![Diffgotchi TUI diff view](packages/docs/public/demos/diff-view.png)
+---
 
-## Install
+![diffgotchi tui diff view](packages/docs/public/demos/diff-view.png)
+
+**terminal diff reviewer for the code your agent writes.**
+
+scroll the diff. drop comments where the patch needs work. mark files done. hand
+the loop back to your agent and come back to a green panel.
+
+---
+
+> [!NOTE]
+> built with agents, for agent-driven code review. diffgotchi is designed for the
+> moment after an ai agent changes your code: you review the diff, leave precise
+> line comments, and let the agent read and resolve them.
+
+## install
 
 ```bash
-brew install oswaldoacauan/diffgotchi/diffgotchi
+brew install oswaldoacauan/tap/diffgotchi
 ```
 
-## Quick start
+macos and linux are available through homebrew. other builds live on the
+[releases page](https://github.com/oswaldoacauan/diffgotchi/releases).
+
+## quick start
+
+run it inside a git repo:
 
 ```bash
 cd your-repo
-diffgotchi                   # review unstaged changes (default)
-diffgotchi --staged          # review staged changes
-diffgotchi main              # diff vs main (base...HEAD)
-diffgotchi main feat         # diff between two refs (base...head)
-diffgotchi --commit abc123   # diff for a single commit
-diffgotchi --filter "*.tsx"  # filter by glob
-diffgotchi --session api-review   # named review session
-diffgotchi --theme dracula
+diffgotchi
 ```
 
-Watch mode is always on. The diff refreshes the instant files change on disk.
+by default, diffgotchi reviews your unstaged changes, the same patch you would
+see from `git diff`.
 
-## How it fits the agent loop
+common variants:
 
-Diffgotchi persists comments and done state under `.git/diffgotchi/`, so the
-review survives restarts, branch switches, and rebases.
+```bash
+diffgotchi --staged                # staged changes
+diffgotchi main                    # diff vs main (base...HEAD)
+diffgotchi main feat               # diff between two refs (base...head)
+diffgotchi --commit abc123         # one commit
+diffgotchi --filter "*.tsx"        # only files matching a glob
+diffgotchi --session api-review    # named review session
+```
 
-1. Run `diffgotchi` after your agent changes code.
-2. Add comments where the diff needs work.
-3. Ask your agent to read the open comments with `diffgotchi --json`.
-4. Let the agent address and resolve them.
+watch mode is always on. keep diffgotchi open while your agent works and the
+diff refreshes when files change.
 
-## Agent loop (`--json`)
+## what you get
 
-All `review` subcommands emit a stable JSON envelope on `--json`:
+- **terminal-native review**: scroll files, jump hunks, fuzzy-pick paths, and
+  open the current file in `$EDITOR`.
+- **mouse-aware comments**: click a changed line or press `c` to leave a note
+  exactly where the problem lives.
+- **done state**: mark files done as you review them and keep your place across
+  runs.
+- **review sessions**: use `--session` when one branch has multiple parallel
+  reviews.
+- **agent-readable state**: comments, replies, and resolutions persist under
+  `.git/diffgotchi/`.
+- **agent skill**: install the diffgotchi skill so your agent can list comments,
+  reply, and resolve threads from the shell.
+- **themes and keybinds**: 30 built-in themes, command palette, mouse support,
+  and remappable keys.
+
+useful keys:
+
+| key             | action                            |
+| --------------- | --------------------------------- |
+| `←` `→` / `h l` | previous / next file              |
+| `↑` `↓` / `j k` | scroll                            |
+| `[` / `]`       | previous / next hunk              |
+| `d`             | mark current file done            |
+| `c`             | add a comment on the focused line |
+| `ctrl+k r`      | open the comments panel           |
+| `/`             | fuzzy file picker                 |
+| `ctrl+p`        | command palette                   |
+| `ctrl+g`        | open current file in `$EDITOR`    |
+| `ctrl+c`        | quit                              |
+
+## agents can use diffgotchi too
+
+diffgotchi is not just a tui. it also exposes the review as structured data, so
+your coding agent can read what you wrote, make changes, reply, and resolve the
+thread.
+
+the intended loop:
+
+1. ask your agent to make a change.
+2. run `diffgotchi` and review the patch.
+3. leave comments on the lines that need work.
+4. tell the agent: "read my open diffgotchi comments and address them."
+5. the agent uses `diffgotchi --json`, fixes the code, replies, and resolves
+   the comments it handled.
+
+install the skill:
+
+```bash
+npx skills add oswaldoacauan/diffgotchi
+```
+
+the skill also lives in
+[`skills/diffgotchi/SKILL.md`](skills/diffgotchi/SKILL.md). drop it into claude
+code, codex, or any agent that can run shell commands.
+
+if you want to drive the loop yourself, every `review` command supports
+`--json`:
+
+```bash
+diffgotchi --json review comments list --status open
+diffgotchi --json review comments resolve cmt_123
+diffgotchi --json review sessions list
+diffgotchi --json review doctor
+```
+
+the response is always a stable envelope:
 
 ```json
-{ "ok": true, "command": "review.comments.list", "comments": [ ... ] }
+{ "ok": true, "command": "review.comments.list", "comments": [] }
 ```
 
-Errors:
+errors use the same shape:
 
 ```json
 { "ok": false, "error": { "code": "...", "message": "...", "details": {} } }
 ```
 
-Available commands:
+## configuration
 
-| Command                                                                          | Purpose                                   |
-| -------------------------------------------------------------------------------- | ----------------------------------------- |
-| `review doctor`                                                                  | Storage state, git status, session counts |
-| `review sessions list [--limit N]`                                               | List review sessions                      |
-| `review sessions current`                                                        | Show the active session id                |
-| `review sessions get <id>`                                                       | Full session payload (incl. comments)     |
-| `review comments list [--session id] [--status open\|resolved\|all] [--limit N]` | List comments                             |
-| `review comments add --file path [--new-line N\|--old-line N] --body text`       | Add an agent comment                      |
-| `review comments get <id> [--session id]`                                        | Fetch one comment                         |
-| `review comments resolve <id> [--session id]`                                    | Mark `open` → `resolved`                  |
-| `review comments reopen <id> [--session id]`                                     | Mark `resolved` → `open`                  |
+config lives at:
 
-Example agent prompt:
-
-```bash
-diffgotchi --json review comments list --status open
-# → feed JSON to the agent: "address every open comment, then resolve it"
-diffgotchi --json review comments resolve cmt_123
-
-# agent asks the user about a changed line; the user replies in the TUI
-diffgotchi --json review comments add --file src/api.ts --new-line 42 --body "Should this handle null?"
+```text
+~/.config/diffgotchi/config.json
 ```
 
-Without `--json`, the same commands print terse text for humans.
-
-## Sessions
-
-State lives under `.git/diffgotchi/`:
-
-- `reviews/<session-id>.json`: per-session comments + done state
-- `current-review-session.json`: pointer to the active session
-
-Session ids are auto-derived from `{kind}-{branch}-{hash}`. Pass `--session
-my-name` to use a sticky, human-readable id.
-
-## Comments
-
-| Key        | Action               |
-| ---------- | -------------------- |
-| `c`        | Open comment editor  |
-| `Ctrl+⏎`   | Submit comment       |
-| `Esc`      | Discard (×2 if body) |
-| `Ctrl+K R` | List all comments    |
-
-Comments persist across runs and carry an `author` (`user` | `agent`) plus a
-`status` (`open` | `resolved`) that agents can read and update. Selecting an
-agent-authored comment in the TUI opens a reply editor for the user.
-
-## Keybinds
-
-| Key                            | Action               |
-| ------------------------------ | -------------------- |
-| `←→` / `hl`                    | Prev / next file     |
-| `↑↓` / `jk`                    | Scroll               |
-| `Ctrl+↑↓` / `PageUp/Down`      | Half page            |
-| `Home`                         | Top                  |
-| `Ctrl+Alt+G` / `End`           | Bottom               |
-| `Shift+↑↓` / `Shift+JK` / `[]` | Prev / next hunk     |
-| `d`                            | Mark file done       |
-| `c`                            | Add comment          |
-| `Ctrl+K R`                     | Review comments      |
-| `/` / `Ctrl+K F`               | File picker          |
-| `Ctrl+G` / `Ctrl+K E`          | Open file in $EDITOR |
-| unbound                        | Theme picker         |
-| unbound                        | Force-expand file    |
-| `Ctrl+P`                       | Command palette      |
-| `Ctrl+C` / `Ctrl+D`            | Quit                 |
-
-All keybinds are remappable in config with dot-key context actions.
-The same key can be bound differently in different contexts.
-
-Keybind strings use commas for alternatives and spaces for chords. For example,
-`ctrl+g, ctrl+k e` means either `Ctrl+G` or the two-step chord
-`Ctrl+K` then `E`; `ctrl+k, e` means either `Ctrl+K` or `E`.
-
-Common contexts are `global`, `diff`, `select`, `file_picker`, `comments_list`,
-`comment_editor`, and `error`. `global.*` bindings are reserved and work across
-focused dialogs and editors.
-
-## Config
-
-`~/.config/diffgotchi/config.json`
+example:
 
 ```json
 {
@@ -162,11 +171,22 @@ focused dialogs and editors.
 }
 ```
 
-## Themes
+keybind strings use commas for alternatives and spaces for chords. for example,
+`ctrl+g, ctrl+k e` means either `ctrl+g` or the two-step chord `ctrl+k` then
+`e`.
 
-30 built-in themes. Use the command palette to preview and switch live. Custom themes go in
-`~/.config/diffgotchi/themes/*.json`.
+custom themes go in:
 
-## License
+```text
+~/.config/diffgotchi/themes/*.json
+```
 
-MIT
+## docs
+
+- [getting started](https://diffgotchi.dev/docs/getting-started)
+- [usage](https://diffgotchi.dev/docs/usage)
+- [releases](https://github.com/oswaldoacauan/diffgotchi/releases)
+
+## license
+
+mit

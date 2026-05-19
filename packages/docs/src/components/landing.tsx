@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export const INSTALL_COMMAND = "brew install oswaldoacauan/diffgotchi/diffgotchi";
+export const INSTALL_COMMAND = "brew install oswaldoacauan/tap/diffgotchi";
 
 export const OG_IMAGE = "https://diffgotchi.dev/demos/diff-view.png";
 export const SITE_TITLE = "diffgotchi — a terminal diff reviewer for the code your agent writes.";
