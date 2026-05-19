@@ -1,0 +1,29 @@
+{
+  "name": "diffgotchi",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun packages/cli/src/main.tsx",
+    "lint": "oxlint --fix",
+    "lint:check": "oxlint",
+    "fmt": "oxfmt --write .",
+    "fmt:check": "oxfmt --check .",
+    "test": "bun test",
+    "test:e2e": "bun test --concurrent ./packages/cli/e2e/*.e2e.ts",
+    "typecheck": "cd packages/cli && bun run typecheck",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "record-demos": "bun packages/docs/demos/record.ts",
+    "postinstall": "lefthook install"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.7.0",
+    "@changesets/cli": "^2.31.0",
+    "lefthook": "^2.1.6",
+    "oxfmt": "^0.48.0",
+    "oxlint": "^1.63.0",
+    "pilotty": "^0.0.7"
+  }
+}

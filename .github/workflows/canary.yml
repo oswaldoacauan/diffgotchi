@@ -1,0 +1,99 @@
+name: 🐤 Canary
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: canary
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            target: darwin-arm64
+          - os: ubuntu-latest
+            target: linux-x64
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: Compute canary version
+        run: |
+          BASE=$(jq -r '.version' packages/cli/package.json)
+          SHA=$(git rev-parse --short HEAD)
+          VERSION="${BASE}-canary.${SHA}"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+
+      - name: Set canary version
+        run: |
+          cd packages/cli
+          jq --arg v "${{ env.VERSION }}" '.version = $v' package.json > tmp.json && mv tmp.json package.json
+
+      - name: Generate build metadata
+        run: |
+          cat > packages/cli/src/lib/build-meta.ts << 'METAEOF'
+          export const BUILD_META = {
+            version: "${{ env.VERSION }}",
+            channel: "canary" as "stable" | "canary",
+            repo: "oswaldoacauan/diffgotchi",
+          };
+          METAEOF
+
+      - name: Build standalone binary
+        run: |
+          cd packages/cli
+          bun build.ts diffgotchi
+          codesign --sign - --force diffgotchi 2>/dev/null || true
+          tar -czf diffgotchi-${{ matrix.target }}.tar.gz diffgotchi
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: diffgotchi-canary-${{ matrix.target }}
+          path: packages/cli/diffgotchi-${{ matrix.target }}.tar.gz
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Compute version for release title
+        run: |
+          BASE=$(jq -r '.version' packages/cli/package.json)
+          SHA=$(git rev-parse --short HEAD)
+          echo "VERSION=${BASE}-canary.${SHA}" >> "$GITHUB_ENV"
+
+      - name: Delete old canary release
+        run: gh release delete canary --yes --cleanup-tag 2>/dev/null || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create canary release
+        run: |
+          gh release create canary artifacts/*.tar.gz \
+            --title "Canary (${{ env.VERSION }})" \
+            --prerelease \
+            --notes "Canary build from main ($(git rev-parse --short HEAD))"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

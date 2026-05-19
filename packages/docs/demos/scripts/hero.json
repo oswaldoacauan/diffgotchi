@@ -1,0 +1,95 @@
+[
+  { "wait": 3000 },
+
+  { "key": "j" },
+  { "wait": 300 },
+  { "key": "j" },
+  { "wait": 300 },
+  { "key": "j" },
+  { "wait": 900 },
+
+  { "key": "l" },
+  { "wait": 1200 },
+
+  { "key": "l" },
+  { "wait": 1000 },
+
+  { "key": "l" },
+  { "wait": 900 },
+
+  { "key": "j" },
+  { "wait": 250 },
+  { "key": "j" },
+  { "wait": 250 },
+  { "key": "j" },
+  { "wait": 600 },
+  { "key": "]" },
+  { "wait": 1000 },
+
+  { "key": "c" },
+  { "wait": 600 },
+  { "type": "cache as a hard dep -- what's the fallback when redis is down?" },
+  { "wait": 800 },
+  { "key": "Ctrl+J" },
+  { "wait": 2400 },
+
+  { "key": "d" },
+  { "wait": 1500 },
+
+  { "key": "/" },
+  { "wait": 700 },
+  { "type": "valid" },
+  { "wait": 900 },
+  { "key": "Enter" },
+  { "wait": 1800 },
+
+  { "key": "Ctrl+P" },
+  { "wait": 700 },
+  { "type": "add comment" },
+  { "wait": 800 },
+  { "key": "Enter" },
+  { "wait": 700 },
+  { "type": "no tests for the new rules. tracking in a follow-up MR." },
+  { "wait": 800 },
+  { "key": "Ctrl+J" },
+  { "wait": 2400 },
+
+  { "key": "Ctrl+P" },
+  { "wait": 700 },
+  { "type": "mark done" },
+  { "wait": 800 },
+  { "key": "Enter" },
+  { "wait": 1500 },
+
+  { "key": "/" },
+  { "wait": 700 },
+  { "type": "config" },
+  { "wait": 900 },
+  { "key": "Enter" },
+  { "wait": 1800 },
+
+  { "key": "Ctrl+P" },
+  { "wait": 700 },
+  { "type": "review" },
+  { "wait": 900 },
+  { "key": "Enter" },
+  { "wait": 3200 },
+
+  { "key": "Down" },
+  { "wait": 700 },
+  { "key": "Down" },
+  { "wait": 700 },
+  { "key": "Down" },
+  { "wait": 900 },
+  { "key": "Up" },
+  { "wait": 1500 },
+
+  { "key": "Escape" },
+  { "wait": 900 },
+
+  { "key": "d" },
+  { "wait": 1500 },
+
+  { "key": "q" },
+  { "wait": 600 }
+]

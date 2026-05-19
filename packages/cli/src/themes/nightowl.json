@@ -1,0 +1,129 @@
+{
+  "$schema": "https://diffgotchi.dev/schemas/theme.json",
+  "defs": {
+    "nightOwlBg": "#011627",
+    "nightOwlFg": "#d6deeb",
+    "nightOwlBlue": "#82AAFF",
+    "nightOwlCyan": "#7fdbca",
+    "nightOwlGreen": "#c5e478",
+    "nightOwlYellow": "#ecc48d",
+    "nightOwlOrange": "#F78C6C",
+    "nightOwlRed": "#EF5350",
+    "nightOwlPink": "#ff5874",
+    "nightOwlPurple": "#c792ea",
+    "nightOwlMuted": "#5f7e97",
+    "nightOwlGray": "#637777",
+    "nightOwlLightGray": "#89a4bb",
+    "nightOwlPanel": "#0b253a"
+  },
+  "theme": {
+    "background": {
+      "dark": "nightOwlBg",
+      "light": "nightOwlBg"
+    },
+    "backgroundPanel": {
+      "dark": "nightOwlPanel",
+      "light": "nightOwlPanel"
+    },
+    "text": {
+      "dark": "nightOwlFg",
+      "light": "nightOwlFg"
+    },
+    "textMuted": {
+      "dark": "nightOwlMuted",
+      "light": "nightOwlMuted"
+    },
+    "primary": {
+      "dark": "nightOwlBlue",
+      "light": "nightOwlBlue"
+    },
+    "success": {
+      "dark": "nightOwlGreen",
+      "light": "nightOwlGreen"
+    },
+    "error": {
+      "dark": "nightOwlRed",
+      "light": "nightOwlRed"
+    },
+    "warning": {
+      "dark": "nightOwlYellow",
+      "light": "nightOwlYellow"
+    },
+    "info": {
+      "dark": "nightOwlBlue",
+      "light": "nightOwlBlue"
+    },
+    "syntaxComment": {
+      "dark": "nightOwlGray",
+      "light": "nightOwlGray"
+    },
+    "syntaxKeyword": {
+      "dark": "nightOwlPurple",
+      "light": "nightOwlPurple"
+    },
+    "syntaxFunction": {
+      "dark": "nightOwlBlue",
+      "light": "nightOwlBlue"
+    },
+    "syntaxVariable": {
+      "dark": "nightOwlFg",
+      "light": "nightOwlFg"
+    },
+    "syntaxString": {
+      "dark": "nightOwlYellow",
+      "light": "nightOwlYellow"
+    },
+    "syntaxNumber": {
+      "dark": "nightOwlOrange",
+      "light": "nightOwlOrange"
+    },
+    "syntaxType": {
+      "dark": "nightOwlGreen",
+      "light": "nightOwlGreen"
+    },
+    "syntaxOperator": {
+      "dark": "nightOwlCyan",
+      "light": "nightOwlCyan"
+    },
+    "syntaxPunctuation": {
+      "dark": "nightOwlFg",
+      "light": "nightOwlFg"
+    },
+    "diffAdded": {
+      "dark": "nightOwlGreen",
+      "light": "nightOwlGreen"
+    },
+    "diffRemoved": {
+      "dark": "nightOwlRed",
+      "light": "nightOwlRed"
+    },
+    "diffAddedBg": {
+      "dark": "#0a2e1a",
+      "light": "#0a2e1a"
+    },
+    "diffRemovedBg": {
+      "dark": "#2d1b1b",
+      "light": "#2d1b1b"
+    },
+    "diffContextBg": {
+      "dark": "nightOwlPanel",
+      "light": "nightOwlPanel"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#0a2e1a",
+      "light": "#0a2e1a"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#2d1b1b",
+      "light": "#2d1b1b"
+    },
+    "diffLineNumber": {
+      "dark": "#7791a6",
+      "light": "#7791a6"
+    },
+    "conceal": {
+      "dark": "nightOwlMuted",
+      "light": "nightOwlMuted"
+    }
+  }
+}

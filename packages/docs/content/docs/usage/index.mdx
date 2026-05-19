@@ -1,0 +1,85 @@
+---
+title: Usage
+description: Keybinds, comments, and the agent loop.
+---
+
+## Keybinds
+
+The most-used keys. Full list is in the in-app help (`Ctrl+P`, search
+"keybinds").
+
+| Key             | Action                            |
+| --------------- | --------------------------------- |
+| `←` `→` / `h l` | Previous / next file              |
+| `↑` `↓` / `j k` | Scroll                            |
+| `[` / `]`       | Previous / next hunk              |
+| `d`             | Mark current file done            |
+| `c`             | Add a comment on the focused line |
+| `Ctrl+K R`      | Open the comments panel           |
+| `/`             | Fuzzy file picker                 |
+| `Ctrl+P`        | Command palette                   |
+| `Ctrl+G`        | Open current file in `$EDITOR`    |
+| `Ctrl+C`        | Quit                              |
+
+Any binding can be overridden in your config — see [Config](#config).
+
+## Comments
+
+Press `c` on any line to drop a comment. It pins to the line and survives
+branch switches and rebases.
+
+Open the comments panel with `Ctrl+K R`. Scroll the list, reply to a thread,
+or mark it resolved.
+
+Comments persist across diffgotchi runs in a review session — they're scoped
+to the branch + diff target you opened them with.
+
+## The agent loop
+
+Diffgotchi ships with a skill your AI agent can install. Once it's there, the
+agent knows how to:
+
+- list the comments you've left
+- read the line each comment pins to
+- reply with what it changed
+- resolve threads it's addressed
+- leave its own comments (questions, callouts) for you to answer
+
+The skill is checked into the repo at
+[`skills/diffgotchi/SKILL.md`](https://github.com/oswaldoacauan/diffgotchi/blob/main/skills/diffgotchi/SKILL.md).
+Drop it into Claude Code (or any agent that runs shell commands) and your
+review thread becomes a two-way conversation.
+
+If you'd rather drive the loop yourself, every `review` subcommand takes
+`--json` and prints a stable envelope. `diffgotchi review --help` lists the
+tree.
+
+## Sessions
+
+A session is one review of one diff. By default the session id is derived
+from the branch and diff target, so re-running `diffgotchi` on the same branch
+picks up where you left off.
+
+For multiple parallel reviews on the same branch, name them:
+
+```bash
+diffgotchi --session api-review
+```
+
+The TUI shows the active session id in the status line.
+
+## Config
+
+Lives at `~/.config/diffgotchi/config.json`. Most useful fields:
+
+```json
+{
+  "$schema": "https://diffgotchi.dev/schemas/config.json",
+  "general": { "theme": "catppuccin" },
+  "diff": { "context_lines": 6 },
+  "keybinds": { "diff.mark_done": "space" }
+}
+```
+
+Keybind strings use commas for alternatives and spaces for chords. So
+`"ctrl+g, ctrl+k e"` means either `Ctrl+G` or the chord `Ctrl+K E`.

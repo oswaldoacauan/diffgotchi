@@ -1,0 +1,9 @@
+{"version": 2, "width": 120, "height": 28, "timestamp": 1779116541, "command": "bash /Users/oacauan/workspace/playground/diffgotchi/packages/docs/demos/agent.sh", "env": {"SHELL": "/bin/zsh", "TERM": "xterm-ghostty"}}
+[0.013345718383789062, "o", "\u001b[3J\u001b[H\u001b[2J"]
+[0.013599872589111328, "o", "\u001b[32m$\u001b[0m diffgotchi review comments list\r\n"]
+[0.6862177848815918, "o", "Comments for worktree-main-7818bdc07c (open, 2)\r\ncmt_27608cf9 [user/open] lib/config.json:3 binding to 0.0.0.0 in dev? are we sure?\r\ncmt_8ff61528 [agent/open] lib/validate.ts:42 this regex allows trailing dots and `..` in the local part. tighten, or leave the loose check?\r\n"]
+[3.1996967792510986, "o", "\u001b[2m# agent reads the comment, writes the fix...\u001b[0m\r\n"]
+[5.430046796798706, "o", "\u001b[32m$\u001b[0m diffgotchi review comments done cmt_27608cf9 --reply '...'\r\n"]
+[6.126247882843018, "o", "Done cmt_27608cf9 with reply (was open)\r\n"]
+[8.137881755828857, "o", "\u001b[32m$\u001b[0m diffgotchi review comments list --status all\r\n"]
+[8.848903894424438, "o", "Comments for worktree-main-7818bdc07c (all, 2)\r\ncmt_27608cf9 [user/resolved] lib/config.json:3 binding to 0.0.0.0 in dev? are we sure?\r\ncmt_8ff61528 [agent/open] lib/validate.ts:42 this regex allows trailing dots and `..` in the local part. tighten, or leave the loose check?\r\n"]

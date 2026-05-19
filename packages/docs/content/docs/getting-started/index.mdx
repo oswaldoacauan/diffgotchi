@@ -1,0 +1,56 @@
+---
+title: Getting Started
+description: Install diffgotchi and review your first diff.
+---
+
+## Install
+
+```bash
+brew install oswaldoacauan/diffgotchi/diffgotchi
+```
+
+macOS and Linux, via Homebrew. Other install methods live on the
+[releases page](https://github.com/oswaldoacauan/diffgotchi/releases).
+
+## Review what's changed
+
+`cd` into a git repo with uncommitted changes and run:
+
+```bash
+diffgotchi
+```
+
+That reviews the unstaged changes — what `git diff` would show you. A few
+common variants:
+
+```bash
+diffgotchi --staged                # staged changes
+diffgotchi main                    # diff vs main (base...HEAD)
+diffgotchi main feat               # diff between two refs
+diffgotchi --commit abc123         # a single commit
+diffgotchi --filter "*.tsx"        # only files matching a glob
+```
+
+The diff refreshes the moment a file changes on disk, so you can keep
+diffgotchi open while your agent works.
+
+## Scoped reviews
+
+If you're juggling multiple reviews on the same branch, give them names:
+
+```bash
+diffgotchi --session api-review
+diffgotchi --session ui-cleanup
+```
+
+Each session keeps its own comments and done state. Switch by re-running with
+a different `--session`.
+
+## Pick a theme
+
+30 themes ship in the box. Open the command palette (`Ctrl+P`) and search
+"theme" to preview and switch.
+
+## Next
+
+- [Usage](/docs/usage) — keybinds, comments, the agent loop.

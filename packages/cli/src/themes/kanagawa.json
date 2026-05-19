@@ -1,0 +1,135 @@
+{
+  "$schema": "https://diffgotchi.dev/schemas/theme.json",
+  "defs": {
+    "sumiInk0": "#1F1F28",
+    "sumiInk1": "#2A2A37",
+    "sumiInk2": "#363646",
+    "sumiInk3": "#54546D",
+    "fujiWhite": "#DCD7BA",
+    "oldWhite": "#C8C093",
+    "fujiGray": "#727169",
+    "oniViolet": "#957FB8",
+    "crystalBlue": "#7E9CD8",
+    "carpYellow": "#C38D9D",
+    "sakuraPink": "#D27E99",
+    "waveAqua": "#76946A",
+    "roninYellow": "#D7A657",
+    "dragonRed": "#E82424",
+    "lotusGreen": "#98BB6C",
+    "waveBlue": "#2D4F67",
+    "lightBg": "#F2E9DE",
+    "lightPaper": "#EAE4D7",
+    "lightText": "#54433A",
+    "lightGray": "#9E9389"
+  },
+  "theme": {
+    "background": {
+      "dark": "sumiInk0",
+      "light": "lightBg"
+    },
+    "backgroundPanel": {
+      "dark": "sumiInk1",
+      "light": "lightPaper"
+    },
+    "text": {
+      "dark": "fujiWhite",
+      "light": "lightText"
+    },
+    "textMuted": {
+      "dark": "fujiGray",
+      "light": "lightGray"
+    },
+    "primary": {
+      "dark": "crystalBlue",
+      "light": "waveBlue"
+    },
+    "success": {
+      "dark": "lotusGreen",
+      "light": "lotusGreen"
+    },
+    "error": {
+      "dark": "dragonRed",
+      "light": "dragonRed"
+    },
+    "warning": {
+      "dark": "roninYellow",
+      "light": "roninYellow"
+    },
+    "info": {
+      "dark": "waveAqua",
+      "light": "waveAqua"
+    },
+    "syntaxComment": {
+      "dark": "fujiGray",
+      "light": "lightGray"
+    },
+    "syntaxKeyword": {
+      "dark": "oniViolet",
+      "light": "oniViolet"
+    },
+    "syntaxFunction": {
+      "dark": "crystalBlue",
+      "light": "waveBlue"
+    },
+    "syntaxVariable": {
+      "dark": "fujiWhite",
+      "light": "lightText"
+    },
+    "syntaxString": {
+      "dark": "lotusGreen",
+      "light": "lotusGreen"
+    },
+    "syntaxNumber": {
+      "dark": "roninYellow",
+      "light": "roninYellow"
+    },
+    "syntaxType": {
+      "dark": "carpYellow",
+      "light": "carpYellow"
+    },
+    "syntaxOperator": {
+      "dark": "sakuraPink",
+      "light": "sakuraPink"
+    },
+    "syntaxPunctuation": {
+      "dark": "fujiWhite",
+      "light": "lightText"
+    },
+    "diffAdded": {
+      "dark": "lotusGreen",
+      "light": "lotusGreen"
+    },
+    "diffRemoved": {
+      "dark": "dragonRed",
+      "light": "dragonRed"
+    },
+    "diffAddedBg": {
+      "dark": "#252E25",
+      "light": "#EAF3E4"
+    },
+    "diffRemovedBg": {
+      "dark": "#362020",
+      "light": "#FBE6E6"
+    },
+    "diffContextBg": {
+      "dark": "sumiInk1",
+      "light": "lightPaper"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#202820",
+      "light": "#DDE8D6"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#2D1C1C",
+      "light": "#F2DADA"
+    },
+    "diffLineNumber": {
+      "dark": "#9090a0",
+      "light": "#65615c"
+    },
+    "conceal": {
+      "dark": "fujiGray",
+      "light": "lightGray"
+    }
+  }
+}

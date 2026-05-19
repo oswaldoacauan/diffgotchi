@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://diffgotchi.dev/schemas/theme.json",
+  "title": "Diffgotchi Theme",
+  "description": "Theme definition for Diffgotchi TUI diff viewer",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "defs": {
+      "type": "object",
+      "description": "Named color aliases that can be referenced in the theme section",
+      "additionalProperties": {
+        "type": "string",
+        "description": "Hex color (#rrggbb) or reference to another def"
+      }
+    },
+    "theme": {
+      "type": "object",
+      "description": "Theme color definitions. Values can be hex colors, def references, or { dark, light } variants.",
+      "properties": {
+        "background": { "$ref": "#/$defs/colorValue", "description": "Main background color" },
+        "backgroundPanel": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Panel/sidebar background color"
+        },
+        "text": { "$ref": "#/$defs/colorValue", "description": "Primary text color" },
+        "textMuted": { "$ref": "#/$defs/colorValue", "description": "Muted/secondary text color" },
+        "conceal": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Concealed text color (defaults to textMuted)"
+        },
+        "primary": { "$ref": "#/$defs/colorValue", "description": "Primary accent color" },
+        "secondary": { "$ref": "#/$defs/colorValue", "description": "Secondary accent color" },
+        "accent": { "$ref": "#/$defs/colorValue", "description": "Additional accent color" },
+        "success": { "$ref": "#/$defs/colorValue", "description": "Success/positive color" },
+        "error": { "$ref": "#/$defs/colorValue", "description": "Error/negative color" },
+        "warning": { "$ref": "#/$defs/colorValue", "description": "Warning color" },
+        "info": { "$ref": "#/$defs/colorValue", "description": "Info/neutral accent color" },
+        "syntaxComment": { "$ref": "#/$defs/colorValue", "description": "Syntax: comments" },
+        "syntaxKeyword": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Syntax: keywords (if, else, return, etc.)"
+        },
+        "syntaxFunction": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Syntax: function names and declarations"
+        },
+        "syntaxVariable": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Syntax: variables and parameters"
+        },
+        "syntaxString": { "$ref": "#/$defs/colorValue", "description": "Syntax: string literals" },
+        "syntaxNumber": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Syntax: numeric literals and booleans"
+        },
+        "syntaxType": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Syntax: type names and annotations"
+        },
+        "syntaxOperator": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Syntax: operators (+, -, =, etc.)"
+        },
+        "syntaxPunctuation": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Syntax: brackets, semicolons, etc."
+        },
+        "diffAdded": { "$ref": "#/$defs/colorValue", "description": "Diff: added line text color" },
+        "diffRemoved": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Diff: removed line text color"
+        },
+        "diffAddedBg": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Diff: added line background"
+        },
+        "diffRemovedBg": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Diff: removed line background"
+        },
+        "diffContextBg": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Diff: context line background"
+        },
+        "diffAddedLineNumberBg": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Diff: added line number gutter background"
+        },
+        "diffRemovedLineNumberBg": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Diff: removed line number gutter background"
+        },
+        "diffLineNumber": {
+          "$ref": "#/$defs/colorValue",
+          "description": "Diff: line number text color"
+        }
+      },
+      "required": ["background", "text"],
+      "additionalProperties": { "$ref": "#/$defs/colorValue" }
+    }
+  },
+  "required": ["theme"],
+  "$defs": {
+    "colorValue": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Hex color (#rrggbb), def reference name, or special values (transparent, none)"
+        },
+        {
+          "type": "object",
+          "description": "Dark/light mode variant",
+          "properties": {
+            "dark": { "type": "string", "description": "Color for dark mode" },
+            "light": { "type": "string", "description": "Color for light mode" }
+          },
+          "required": ["dark", "light"],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

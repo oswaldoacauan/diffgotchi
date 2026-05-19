@@ -1,0 +1,208 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+@theme {
+  /* Catppuccin Macchiato — used for code blocks + landing page accents */
+  --color-rosewater: #f4dbd6;
+  --color-pink: #f5bde6;
+  --color-mauve: #c6a0f6;
+  --color-red: #ed8796;
+  --color-maroon: #ee99a0;
+  --color-peach: #f5a97f;
+  --color-yellow: #eed49f;
+  --color-green: #a6da95;
+  --color-teal: #8bd5ca;
+  --color-sky: #91d7e3;
+  --color-sapphire: #7dc4e4;
+  --color-blue: #8aadf4;
+  --color-lavender: #b7bdf8;
+  --color-ctp-text: #cad3f5;
+  --color-ctp-subtext0: #a5adcb;
+  --color-ctp-surface0: #363a4f;
+  --color-ctp-base: #24273a;
+  --color-ctp-mantle: #1e2030;
+  --color-ctp-crust: #181926;
+
+  /* Landing page palette */
+  --color-landing-text: #24273a;
+  --color-landing-muted: #5b6078;
+  --color-landing-soft-bg: #eae7e3;
+  --color-landing-button-bg: #fffaf7;
+
+  /* Warm light docs palette — derived from landing page */
+  --color-fd-background: #eae7e3;
+  --color-fd-foreground: #24273a;
+  --color-fd-muted: #e2ded9;
+  --color-fd-muted-foreground: #5b6078;
+  --color-fd-popover: #fffaf7;
+  --color-fd-popover-foreground: #24273a;
+  --color-fd-card: #f0ede9;
+  --color-fd-card-foreground: #24273a;
+  --color-fd-border: #d5d0ca;
+  --color-fd-primary: #8b6cc1;
+  --color-fd-primary-foreground: #fffaf7;
+  --color-fd-secondary: #e2ded9;
+  --color-fd-secondary-foreground: #24273a;
+  --color-fd-accent: #dbd6d0;
+  --color-fd-accent-foreground: #24273a;
+  --color-fd-ring: #c6a0f6;
+  --color-fd-overlay: rgba(36, 39, 58, 0.2);
+
+  --font-kawaii: "Gochi Hand", "Comic Sans MS", "Chalkboard SE", cursive;
+  --font-body:
+    ui-rounded, "SF Pro Rounded", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --font-mono:
+    ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 6s ease-in-out infinite;
+}
+
+/* Force dark code blocks (Catppuccin Macchiato) in light mode */
+figure.shiki {
+  background-color: #181926 !important;
+  border-color: #363a4f !important;
+}
+
+figure.shiki code span {
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+}
+
+/* Inline code — keep warm light style */
+:not(figure) > code.shiki span {
+  color: var(--shiki-light) !important;
+}
+
+/* Asciinema player — strip border + radius, match terminal theme */
+div.ap-wrapper div.ap-player {
+  border-radius: 0 !important;
+  background-color: var(--color-ctp-mantle) !important;
+}
+.ap-player {
+  --term-color-background: #1e2030; /* ctp-mantle */
+  --term-color-foreground: #cad3f5; /* ctp-text */
+  /* Catppuccin Macchiato ANSI palette */
+  --term-color-0: #494d64; /* surface1 */
+  --term-color-1: #ed8796; /* red */
+  --term-color-2: #a6da95; /* green */
+  --term-color-3: #eed49f; /* yellow */
+  --term-color-4: #8aadf4; /* blue */
+  --term-color-5: #f5bde6; /* pink */
+  --term-color-6: #8bd5ca; /* teal */
+  --term-color-7: #b8c0e0; /* subtext1 */
+  --term-color-8: #5b6078; /* surface2 */
+  --term-color-9: #ed8796;
+  --term-color-10: #a6da95;
+  --term-color-11: #eed49f;
+  --term-color-12: #8aadf4;
+  --term-color-13: #f5bde6;
+  --term-color-14: #8bd5ca;
+  --term-color-15: #a5adcb; /* subtext0 */
+}
+div.ap-term {
+  border-width: 0 !important;
+}
+
+/* Landing page — ambient animations */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(28px);
+  }
+}
+
+@keyframes floaty {
+  from {
+    transform: translate(0, 0) rotate(var(--rot, 0deg));
+  }
+  to {
+    transform: translate(4px, -6px) rotate(calc(var(--rot, 0deg) + 4deg));
+  }
+}
+
+/* Scroll-driven reveal (Chrome 115+, Firefox 128+; graceful no-op elsewhere) */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: reveal-up 0.8s ease-out both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+}
+
+/* Grain noise overlay — adds subtle texture to flat backgrounds */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.025;
+}
+
+/* Square pixel grid — condensed, softer */
+.dots {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Crect x='0' y='0' width='1.5' height='1.5' fill='%2324273a' fill-opacity='0.09'/%3E%3C/svg%3E");
+}
+
+.dots-fade {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Crect x='0' y='0' width='1.5' height='1.5' fill='%2324273a' fill-opacity='0.11'/%3E%3C/svg%3E");
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at center, black 30%, transparent 90%);
+  mask-image: radial-gradient(ellipse 80% 70% at center, black 30%, transparent 90%);
+}
+
+/* Halftone-style pattern — bigger varied dots for hero-style backgrounds */
+.halftone {
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(198, 160, 246, 0.3) 3px, transparent 4px),
+    radial-gradient(circle at 75% 75%, rgba(245, 189, 230, 0.25) 2px, transparent 3px),
+    radial-gradient(circle at 2px 2px, rgba(36, 39, 58, 0.15) 1.2px, transparent 0);
+  background-size:
+    60px 60px,
+    60px 60px,
+    18px 18px;
+}
+
+/* Radial gradient decoration utilities */
+.radial-mauve {
+  background: radial-gradient(circle at center, rgba(198, 160, 246, 0.55) 0%, transparent 65%);
+}
+
+.radial-pink {
+  background: radial-gradient(circle at center, rgba(245, 189, 230, 0.6) 0%, transparent 65%);
+}
+
+.radial-peach {
+  background: radial-gradient(circle at center, rgba(245, 169, 127, 0.5) 0%, transparent 65%);
+}
+
+.radial-blue {
+  background: radial-gradient(circle at center, rgba(138, 173, 244, 0.45) 0%, transparent 65%);
+}

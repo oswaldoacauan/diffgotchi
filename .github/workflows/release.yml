@@ -1,0 +1,179 @@
+name: 🚀 Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: Generate changeset from commits
+        run: |
+          LAST_TAG=$(git tag -l 'v*' --sort=-version:refname | head -1)
+          if [ -n "$LAST_TAG" ]; then
+            COMMITS=$(git log "${LAST_TAG}..HEAD" --format="%s" --no-merges)
+          else
+            COMMITS=$(git log --format="%s" --no-merges)
+          fi
+
+          BUMP="patch"
+          while IFS= read -r msg; do
+            if [[ "$msg" =~ ^feat ]]; then BUMP="minor"; fi
+            if [[ "$msg" =~ BREAKING.CHANGE ]] || [[ "$msg" =~ ^[a-z]+\! ]]; then BUMP="major"; fi
+          done <<< "$COMMITS"
+
+          HASH=$(echo "$COMMITS" | sha256sum | cut -c1-8)
+          mkdir -p .changeset
+          SUMMARY=$(echo "$COMMITS" | head -20)
+          cat > ".changeset/${HASH}-auto.md" << CSEOF
+          ---
+          "@diffgotchi/cli": $BUMP
+          ---
+
+          $SUMMARY
+          CSEOF
+
+      - name: Version packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun changeset version
+
+      - name: Read version
+        id: version
+        run: |
+          VERSION=$(jq -r '.version' packages/cli/package.json)
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and tag
+        run: |
+          VERSION=$(jq -r '.version' packages/cli/package.json)
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: release v${VERSION}"
+          git tag "v${VERSION}"
+          git push origin main --follow-tags
+
+  build:
+    if: always() && (needs.prepare.result == 'success' || needs.prepare.result == 'skipped')
+    needs: prepare
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            target: darwin-arm64
+          - os: ubuntu-latest
+            target: linux-x64
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && 'main' || github.ref }}
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: Generate build metadata
+        run: |
+          VERSION=$(jq -r '.version' packages/cli/package.json)
+          cat > packages/cli/src/lib/build-meta.ts << METAEOF
+          export const BUILD_META = {
+            version: "${VERSION}",
+            channel: "stable" as "stable" | "canary",
+            repo: "oswaldoacauan/diffgotchi",
+          };
+          METAEOF
+
+      - name: Build standalone binary
+        run: |
+          cd packages/cli
+          bun build.ts diffgotchi
+          codesign --sign - --force diffgotchi 2>/dev/null || true
+          tar -czf diffgotchi-${{ matrix.target }}.tar.gz diffgotchi
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: diffgotchi-${{ matrix.target }}
+          path: packages/cli/diffgotchi-${{ matrix.target }}.tar.gz
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && 'main' || github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Resolve version
+        run: |
+          VERSION=$(jq -r '.version' packages/cli/package.json)
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: v${{ env.VERSION }}
+          files: artifacts/*.tar.gz
+          generate_release_notes: true
+
+      - name: Update Homebrew formula in tap repo
+        env:
+          GH_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          SHA_DARWIN_ARM64=$(sha256sum artifacts/diffgotchi-darwin-arm64.tar.gz | cut -d' ' -f1)
+          SHA_LINUX_X64=$(sha256sum artifacts/diffgotchi-linux-x64.tar.gz | cut -d' ' -f1)
+
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/oswaldoacauan/homebrew-tap.git" tap
+          cd tap
+
+          sed -i -E \
+            -e "s|version \"[^\"]*\"|version \"${VERSION}\"|" \
+            -e "s|releases/download/v[^/]+/diffgotchi-darwin-arm64.tar.gz|releases/download/v${VERSION}/diffgotchi-darwin-arm64.tar.gz|" \
+            -e "s|releases/download/v[^/]+/diffgotchi-linux-x64.tar.gz|releases/download/v${VERSION}/diffgotchi-linux-x64.tar.gz|" \
+            Formula/diffgotchi.rb
+
+          # Update sha256 lines: macOS block first, then Linux block
+          awk -v sha_mac="${SHA_DARWIN_ARM64}" -v sha_linux="${SHA_LINUX_X64}" '
+            /on_macos do/ { in_mac=1 }
+            /on_linux do/ { in_mac=0; in_linux=1 }
+            /^  end$/ { in_mac=0; in_linux=0 }
+            in_mac && /sha256/ { sub(/sha256 "[^"]*"/, "sha256 \"" sha_mac "\"") }
+            in_linux && /sha256/ { sub(/sha256 "[^"]*"/, "sha256 \"" sha_linux "\"") }
+            { print }
+          ' Formula/diffgotchi.rb > Formula/diffgotchi.rb.new
+          mv Formula/diffgotchi.rb.new Formula/diffgotchi.rb
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/diffgotchi.rb
+          git commit -m "diffgotchi v${VERSION}"
+          git push origin main

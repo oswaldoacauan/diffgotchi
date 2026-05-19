@@ -1,0 +1,143 @@
+{
+  "$schema": "https://diffgotchi.dev/schemas/theme.json",
+  "defs": {
+    "darkBg": "#263238",
+    "darkBgAlt": "#1e272c",
+    "darkBgPanel": "#37474f",
+    "darkFg": "#eeffff",
+    "darkFgMuted": "#546e7a",
+    "darkRed": "#f07178",
+    "darkPink": "#f78c6c",
+    "darkOrange": "#ffcb6b",
+    "darkYellow": "#ffcb6b",
+    "darkGreen": "#c3e88d",
+    "darkCyan": "#89ddff",
+    "darkBlue": "#82aaff",
+    "darkPurple": "#c792ea",
+    "darkViolet": "#bb80b3",
+    "lightBg": "#fafafa",
+    "lightBgAlt": "#f5f5f5",
+    "lightBgPanel": "#e7e7e8",
+    "lightFg": "#263238",
+    "lightFgMuted": "#90a4ae",
+    "lightRed": "#e53935",
+    "lightPink": "#ec407a",
+    "lightOrange": "#f4511e",
+    "lightYellow": "#ffb300",
+    "lightGreen": "#91b859",
+    "lightCyan": "#39adb5",
+    "lightBlue": "#6182b8",
+    "lightPurple": "#7c4dff",
+    "lightViolet": "#945eb8"
+  },
+  "theme": {
+    "background": {
+      "dark": "darkBg",
+      "light": "lightBg"
+    },
+    "backgroundPanel": {
+      "dark": "darkBgAlt",
+      "light": "lightBgAlt"
+    },
+    "text": {
+      "dark": "darkFg",
+      "light": "lightFg"
+    },
+    "textMuted": {
+      "dark": "darkFgMuted",
+      "light": "lightFgMuted"
+    },
+    "primary": {
+      "dark": "darkBlue",
+      "light": "lightBlue"
+    },
+    "success": {
+      "dark": "darkGreen",
+      "light": "lightGreen"
+    },
+    "error": {
+      "dark": "darkRed",
+      "light": "lightRed"
+    },
+    "warning": {
+      "dark": "darkYellow",
+      "light": "lightYellow"
+    },
+    "info": {
+      "dark": "darkOrange",
+      "light": "lightOrange"
+    },
+    "syntaxComment": {
+      "dark": "darkFgMuted",
+      "light": "lightFgMuted"
+    },
+    "syntaxKeyword": {
+      "dark": "darkPurple",
+      "light": "lightPurple"
+    },
+    "syntaxFunction": {
+      "dark": "darkBlue",
+      "light": "lightBlue"
+    },
+    "syntaxVariable": {
+      "dark": "darkFg",
+      "light": "lightFg"
+    },
+    "syntaxString": {
+      "dark": "darkGreen",
+      "light": "lightGreen"
+    },
+    "syntaxNumber": {
+      "dark": "darkOrange",
+      "light": "lightOrange"
+    },
+    "syntaxType": {
+      "dark": "darkYellow",
+      "light": "lightYellow"
+    },
+    "syntaxOperator": {
+      "dark": "darkCyan",
+      "light": "lightCyan"
+    },
+    "syntaxPunctuation": {
+      "dark": "darkFg",
+      "light": "lightFg"
+    },
+    "diffAdded": {
+      "dark": "darkGreen",
+      "light": "lightGreen"
+    },
+    "diffRemoved": {
+      "dark": "darkRed",
+      "light": "lightRed"
+    },
+    "diffAddedBg": {
+      "dark": "#2e3c2b",
+      "light": "#e8f5e9"
+    },
+    "diffRemovedBg": {
+      "dark": "#3c2b2b",
+      "light": "#ffebee"
+    },
+    "diffContextBg": {
+      "dark": "darkBgAlt",
+      "light": "lightBgAlt"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#2e3c2b",
+      "light": "#e8f5e9"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#3c2b2b",
+      "light": "#ffebee"
+    },
+    "diffLineNumber": {
+      "dark": "#9aa2a6",
+      "light": "#6a6e70"
+    },
+    "conceal": {
+      "dark": "darkFgMuted",
+      "light": "lightFgMuted"
+    }
+  }
+}

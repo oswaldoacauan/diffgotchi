@@ -1,0 +1,151 @@
+{
+  "$schema": "https://diffgotchi.dev/schemas/theme.json",
+  "defs": {
+    "darkStep1": "#1a1b26",
+    "darkStep2": "#1e2030",
+    "darkStep3": "#222436",
+    "darkStep4": "#292e42",
+    "darkStep5": "#3b4261",
+    "darkStep6": "#545c7e",
+    "darkStep7": "#737aa2",
+    "darkStep8": "#9099b2",
+    "darkStep9": "#82aaff",
+    "darkStep10": "#89b4fa",
+    "darkStep11": "#828bb8",
+    "darkStep12": "#c8d3f5",
+    "darkRed": "#ff757f",
+    "darkOrange": "#ff966c",
+    "darkYellow": "#ffc777",
+    "darkGreen": "#c3e88d",
+    "darkCyan": "#86e1fc",
+    "darkPurple": "#c099ff",
+    "lightStep1": "#e1e2e7",
+    "lightStep2": "#d5d6db",
+    "lightStep3": "#c8c9ce",
+    "lightStep4": "#b9bac1",
+    "lightStep5": "#a8aecb",
+    "lightStep6": "#9699a8",
+    "lightStep7": "#737a8c",
+    "lightStep8": "#5a607d",
+    "lightStep9": "#2e7de9",
+    "lightStep10": "#1a6ce7",
+    "lightStep11": "#8990a3",
+    "lightStep12": "#3760bf",
+    "lightRed": "#f52a65",
+    "lightOrange": "#b15c00",
+    "lightYellow": "#8c6c3e",
+    "lightGreen": "#587539",
+    "lightCyan": "#007197",
+    "lightPurple": "#9854f1"
+  },
+  "theme": {
+    "background": {
+      "dark": "darkStep1",
+      "light": "lightStep1"
+    },
+    "backgroundPanel": {
+      "dark": "darkStep2",
+      "light": "lightStep2"
+    },
+    "text": {
+      "dark": "darkStep12",
+      "light": "lightStep12"
+    },
+    "textMuted": {
+      "dark": "darkStep11",
+      "light": "lightStep11"
+    },
+    "primary": {
+      "dark": "darkStep9",
+      "light": "lightStep9"
+    },
+    "success": {
+      "dark": "darkGreen",
+      "light": "lightGreen"
+    },
+    "error": {
+      "dark": "darkRed",
+      "light": "lightRed"
+    },
+    "warning": {
+      "dark": "darkOrange",
+      "light": "lightOrange"
+    },
+    "info": {
+      "dark": "darkStep9",
+      "light": "lightStep9"
+    },
+    "syntaxComment": {
+      "dark": "darkStep11",
+      "light": "lightStep11"
+    },
+    "syntaxKeyword": {
+      "dark": "darkPurple",
+      "light": "lightPurple"
+    },
+    "syntaxFunction": {
+      "dark": "darkStep9",
+      "light": "lightStep9"
+    },
+    "syntaxVariable": {
+      "dark": "darkRed",
+      "light": "lightRed"
+    },
+    "syntaxString": {
+      "dark": "darkGreen",
+      "light": "lightGreen"
+    },
+    "syntaxNumber": {
+      "dark": "darkOrange",
+      "light": "lightOrange"
+    },
+    "syntaxType": {
+      "dark": "darkYellow",
+      "light": "lightYellow"
+    },
+    "syntaxOperator": {
+      "dark": "darkCyan",
+      "light": "lightCyan"
+    },
+    "syntaxPunctuation": {
+      "dark": "darkStep12",
+      "light": "lightStep12"
+    },
+    "diffAdded": {
+      "dark": "#4fd6be",
+      "light": "#1e725c"
+    },
+    "diffRemoved": {
+      "dark": "#c53b53",
+      "light": "#c53b53"
+    },
+    "diffAddedBg": {
+      "dark": "#20303b",
+      "light": "#d5e5d5"
+    },
+    "diffRemovedBg": {
+      "dark": "#37222c",
+      "light": "#f7d8db"
+    },
+    "diffContextBg": {
+      "dark": "darkStep2",
+      "light": "lightStep2"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#1b2b34",
+      "light": "#c5d5c5"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#2d1f26",
+      "light": "#e7c8cb"
+    },
+    "diffLineNumber": {
+      "dark": "#8f909a",
+      "light": "#59595b"
+    },
+    "conceal": {
+      "dark": "darkStep11",
+      "light": "lightStep11"
+    }
+  }
+}

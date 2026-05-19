@@ -1,0 +1,450 @@
+:root {
+  color-scheme: light;
+  --rosewater: #f4dbd6;
+  --pink: #f5bde6;
+  --mauve: #c6a0f6;
+  --green: #a6da95;
+  --peach: #f5a97f;
+  --yellow: #eed49f;
+  --blue: #8aadf4;
+  --ctp-text: #cad3f5;
+  --ctp-subtext0: #a5adcb;
+  --ctp-surface0: #363a4f;
+  --ctp-base: #24273a;
+  --ctp-mantle: #1e2030;
+  --ctp-crust: #181926;
+  --text: #24273a;
+  --muted: #5b6078;
+  --soft-bg: #eae7e3;
+  --button-bg: #fffaf7;
+  --font-kawaii: "Gochi Hand", "Comic Sans MS", "Chalkboard SE", cursive;
+  --font-body:
+    ui-rounded, "SF Pro Rounded", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  overflow-x: clip;
+  background: var(--soft-bg);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  overflow-x: clip;
+  background: var(--soft-bg);
+}
+
+a {
+  color: inherit;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 10;
+  transform: translateY(-150%);
+  padding: 0.45rem 0.8rem;
+  background: var(--text);
+  color: var(--button-bg);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.top-links {
+  position: fixed;
+  top: 1.15rem;
+  right: clamp(1rem, 4vw, 3rem);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.8rem, 3vw, 1.6rem);
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 750;
+}
+
+.top-links a {
+  text-decoration: none;
+}
+
+.top-links a:hover {
+  color: var(--text);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.9fr) minmax(20rem, 0.95fr);
+  align-items: center;
+  gap: clamp(1.4rem, 5vw, 5rem);
+  width: 100%;
+  max-width: 76rem;
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: clamp(3.4rem, 5vw, 4.25rem) clamp(1rem, 3vw, 3rem) clamp(4rem, 8vw, 6rem);
+}
+
+.hero-copy-side {
+  max-width: 34rem;
+}
+
+.hero-kicker {
+  margin: 0 0 0.45rem;
+  color: var(--mauve);
+  font-family: var(--font-kawaii);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.1;
+}
+
+.hero-title {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-kawaii);
+  font-size: clamp(6.4rem, 14vw, 10.75rem);
+  font-weight: 400;
+  line-height: 0.86;
+  letter-spacing: 0;
+}
+
+.hero-motto {
+  margin: 1.1rem 0 0;
+  color: var(--text);
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.hero-copy {
+  max-width: 31rem;
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.install-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+}
+
+.install-card {
+  position: relative;
+  flex: 1 1 26rem;
+  min-width: 0;
+  max-width: min(100%, 29rem);
+}
+
+.copy-button {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.65rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--ctp-subtext0);
+  cursor: pointer;
+}
+
+.copy-button:hover {
+  color: var(--pink);
+}
+
+.copy-button:focus-visible {
+  outline: 2px solid var(--mauve);
+  outline-offset: 0.2rem;
+}
+
+.copy-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  opacity: 0.72;
+  transition:
+    color 160ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.copy-feedback {
+  position: absolute;
+  color: var(--green);
+  font-family:
+    ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.2rem);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+  white-space: nowrap;
+}
+
+.copy-button.is-copied .copy-icon {
+  opacity: 0;
+  transform: translateY(-0.2rem);
+}
+
+.copy-button.is-copied .copy-feedback {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.install-code {
+  margin: 0;
+  border-radius: 1rem;
+  padding: 1rem 3rem 0.95rem 1rem;
+  background: var(--ctp-crust);
+  color: var(--ctp-text);
+  font-family:
+    ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.sh-command {
+  color: var(--blue);
+}
+
+.sh-subcommand {
+  color: var(--mauve);
+}
+
+.sh-package {
+  color: var(--yellow);
+}
+
+.sh-string {
+  color: var(--green);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  border-radius: 999px;
+  padding: 0.7rem 1.2rem;
+  background: var(--button-bg);
+  color: var(--text);
+  font-size: 0.98rem;
+  font-weight: 850;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.button:hover {
+  color: var(--mauve);
+}
+
+.mascot-stage {
+  justify-self: end;
+  width: min(100%, 38rem);
+  margin: 0;
+}
+
+.mascot-stage img {
+  display: block;
+  width: 100%;
+  height: min(72svh, 34rem);
+  object-fit: contain;
+  margin-left: 35%;
+}
+
+.demo {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 3rem) 4rem;
+}
+
+.demo-title {
+  font-family: var(--font-kawaii);
+  font-size: clamp(2rem, 4vw, 3rem);
+  text-align: center;
+  margin: 0 0 2rem;
+}
+
+.demo-stage {
+  margin: 0 auto;
+  width: min(100%, 56rem);
+}
+
+.demo-stage img,
+.demo-stage video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.features {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 4rem clamp(1rem, 3vw, 3rem) 6rem;
+}
+
+.features-title {
+  font-family: var(--font-kawaii);
+  font-size: clamp(2rem, 4vw, 3rem);
+  text-align: center;
+  margin: 0 0 2.5rem;
+}
+
+.feature-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.feature-row:nth-child(odd) {
+  direction: rtl;
+}
+
+.feature-row:nth-child(odd) > * {
+  direction: ltr;
+}
+
+.feature-row img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.feature-text h3 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+  font-weight: 800;
+}
+
+.feature-text p {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.feature-text kbd,
+.feature-text code,
+.hero-copy code {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: var(--ctp-crust);
+  color: var(--ctp-text);
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid var(--ctp-surface0);
+}
+
+.feature-text code,
+.hero-copy code {
+  font-weight: 600;
+}
+
+@media (max-width: 54rem) {
+  .top-links {
+    position: absolute;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    min-height: auto;
+    padding-top: 5rem;
+    text-align: center;
+  }
+
+  .hero-copy-side {
+    max-width: 40rem;
+  }
+
+  .hero-copy {
+    max-width: 36rem;
+  }
+
+  .install-actions {
+    justify-content: center;
+  }
+
+  .mascot-stage {
+    justify-self: center;
+    width: min(100%, 30rem);
+    order: -1;
+  }
+
+  .mascot-stage img {
+    height: auto;
+    margin-left: 20%;
+  }
+
+  .feature-row,
+  .feature-row:nth-child(odd) {
+    grid-template-columns: 1fr;
+    direction: ltr;
+    text-align: center;
+  }
+}
+
+@media (max-width: 40rem) {
+  .top-links {
+    left: 1rem;
+    right: 1rem;
+    justify-content: flex-end;
+    gap: 0.9rem;
+  }
+
+  .hero {
+    max-width: 34rem;
+    padding-top: 4.7rem;
+    padding-bottom: 2rem;
+  }
+
+  .hero-title {
+    font-size: clamp(5rem, 24vw, 7rem);
+  }
+
+  .install-actions {
+    align-items: stretch;
+    flex-direction: column;
+    width: min(100%, 22rem);
+  }
+
+  .install-code {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .button {
+    width: 100%;
+  }
+}

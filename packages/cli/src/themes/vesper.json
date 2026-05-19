@@ -1,0 +1,126 @@
+{
+  "$schema": "https://diffgotchi.dev/schemas/theme.json",
+  "defs": {
+    "vesperBg": "#101010",
+    "vesperFg": "#FFF",
+    "vesperComment": "#8b8b8b",
+    "vesperKeyword": "#A0A0A0",
+    "vesperFunction": "#FFC799",
+    "vesperString": "#99FFE4",
+    "vesperNumber": "#FFC799",
+    "vesperError": "#FF8080",
+    "vesperWarning": "#FFC799",
+    "vesperSuccess": "#99FFE4",
+    "vesperMuted": "#A0A0A0"
+  },
+  "theme": {
+    "background": {
+      "dark": "vesperBg",
+      "light": "#FFF"
+    },
+    "backgroundPanel": {
+      "dark": "vesperBg",
+      "light": "#F0F0F0"
+    },
+    "text": {
+      "dark": "vesperFg",
+      "light": "vesperBg"
+    },
+    "textMuted": {
+      "dark": "vesperMuted",
+      "light": "vesperMuted"
+    },
+    "primary": {
+      "dark": "#FFC799",
+      "light": "#FFC799"
+    },
+    "success": {
+      "dark": "vesperSuccess",
+      "light": "vesperSuccess"
+    },
+    "error": {
+      "dark": "vesperError",
+      "light": "vesperError"
+    },
+    "warning": {
+      "dark": "vesperWarning",
+      "light": "vesperWarning"
+    },
+    "info": {
+      "dark": "#FFC799",
+      "light": "#FFC799"
+    },
+    "syntaxComment": {
+      "dark": "vesperComment",
+      "light": "vesperComment"
+    },
+    "syntaxKeyword": {
+      "dark": "vesperKeyword",
+      "light": "vesperKeyword"
+    },
+    "syntaxFunction": {
+      "dark": "vesperFunction",
+      "light": "vesperFunction"
+    },
+    "syntaxVariable": {
+      "dark": "vesperFg",
+      "light": "vesperBg"
+    },
+    "syntaxString": {
+      "dark": "vesperString",
+      "light": "vesperString"
+    },
+    "syntaxNumber": {
+      "dark": "vesperNumber",
+      "light": "vesperNumber"
+    },
+    "syntaxType": {
+      "dark": "vesperFunction",
+      "light": "vesperFunction"
+    },
+    "syntaxOperator": {
+      "dark": "vesperKeyword",
+      "light": "vesperKeyword"
+    },
+    "syntaxPunctuation": {
+      "dark": "vesperFg",
+      "light": "vesperBg"
+    },
+    "diffAdded": {
+      "dark": "vesperSuccess",
+      "light": "vesperSuccess"
+    },
+    "diffRemoved": {
+      "dark": "vesperError",
+      "light": "vesperError"
+    },
+    "diffAddedBg": {
+      "dark": "#0d2818",
+      "light": "#e8f5e8"
+    },
+    "diffRemovedBg": {
+      "dark": "#281a1a",
+      "light": "#f5e8e8"
+    },
+    "diffContextBg": {
+      "dark": "vesperBg",
+      "light": "#F8F8F8"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#0d2818",
+      "light": "#e8f5e8"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#281a1a",
+      "light": "#f5e8e8"
+    },
+    "diffLineNumber": {
+      "dark": "textMuted",
+      "light": "#6a6a6a"
+    },
+    "conceal": {
+      "dark": "vesperMuted",
+      "light": "vesperMuted"
+    }
+  }
+}
