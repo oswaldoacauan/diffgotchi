@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValueEvent, useScroll, useTransform } from "motion/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMediaQuery, useResizeObserver } from "usehooks-ts";
 import { DemoTerminal } from "@/components/demo-terminal";
 import { FeatureArticle } from "@/components/feature-article";
@@ -168,9 +168,22 @@ function DesktopLayout() {
 
 export function ScrollyShowcase() {
   const isDesktop = useMediaQuery(DESKTOP_QUERY, { initializeWithValue: false });
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   return (
-    <section aria-label="Feature showcase" className="relative mx-auto w-full max-w-[110rem]">
+    <section
+      aria-label="Feature showcase"
+      className="relative mx-auto w-full max-w-[110rem]"
+      style={{
+        opacity: isHydrated ? 1 : 0,
+        pointerEvents: isHydrated ? "auto" : "none",
+        transition: "opacity 180ms ease",
+      }}
+    >
       {isDesktop ? <DesktopLayout /> : <MobileLayout />}
     </section>
   );
