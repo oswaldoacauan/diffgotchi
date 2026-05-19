@@ -1,21 +1,23 @@
 # Diffgotchi
 
-The diff reviewer your agent can read.
+A terminal diff reviewer for the code your agent writes.
 
-Review diffs, drop comments, your agent picks them up.
+Review your agent's diff where the work already is. Scroll the changes, drop
+comments on lines that need a second look, mark files done, then hand the loop
+back to your agent. Come back to a green panel.
 
-![Diffgotchi](packages/web/public/demos/diff-view.png)
+![Diffgotchi TUI diff view](packages/docs/public/demos/diff-view.png)
 
 ## Install
 
 ```bash
-brew tap oswaldoacauan/diffgotchi git@github.com:oswaldoacauan/diffgotchi.git
-brew install diffgotchi
+brew install oswaldoacauan/diffgotchi/diffgotchi
 ```
 
 ## Quick start
 
 ```bash
+cd your-repo
 diffgotchi                   # review unstaged changes (default)
 diffgotchi --staged          # review staged changes
 diffgotchi main              # diff vs main (base...HEAD)
@@ -27,6 +29,16 @@ diffgotchi --theme dracula
 ```
 
 Watch mode is always on. The diff refreshes the instant files change on disk.
+
+## How it fits the agent loop
+
+Diffgotchi persists comments and done state under `.git/diffgotchi/`, so the
+review survives restarts, branch switches, and rebases.
+
+1. Run `diffgotchi` after your agent changes code.
+2. Add comments where the diff needs work.
+3. Ask your agent to read the open comments with `diffgotchi --json`.
+4. Let the agent address and resolve them.
 
 ## Agent loop (`--json`)
 
