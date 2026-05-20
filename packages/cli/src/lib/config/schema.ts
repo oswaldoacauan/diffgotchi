@@ -42,7 +42,7 @@ export function generateConfigSchema(): JsonSchema {
       }),
       upgrade: objectSchema(CONFIG_DESCRIPTIONS.upgrade, DEFAULT_CONFIG.upgrade, {
         auto: { type: "boolean" },
-        channel: { type: "string", enum: ["stable", "canary"] },
+        channel: { type: "string", enum: ["stable", "edge"] },
       }),
       storage: objectSchema(CONFIG_DESCRIPTIONS.storage, DEFAULT_CONFIG.storage, {
         cleanup_stale_days: { type: "integer", minimum: 0 },

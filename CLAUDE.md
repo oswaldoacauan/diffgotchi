@@ -136,7 +136,7 @@ Theme selection persists to config on confirm (not during preview).
 
 ## Release Flow
 
-- **Canary**: every push to main → binaries under rolling `canary` GitHub Release tag (`canary.yml`)
+- **Edge**: every push to main → binaries under rolling `edge` GitHub Release tag (`edge.yml`)
 - **Stable**: `workflow_dispatch` on `release.yml` → auto-generates changesets from commits → version bump → tag → binaries + GitHub Release + homebrew formula update
 - **Docs**: `deploy-docs.yml` deploys GitHub Pages on push to main
 

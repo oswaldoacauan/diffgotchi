@@ -226,11 +226,7 @@ async function runTui(
     appStore.set(setReviewSessionAtom, reviewSession);
     saveActiveReviewSessionId(reviewSession.id);
 
-    if (
-      config.upgrade.auto &&
-      !process.env.DIFFGOTCHI_NO_UPDATE &&
-      BUILD_META.channel !== "canary"
-    ) {
+    if (config.upgrade.auto && !process.env.DIFFGOTCHI_NO_UPDATE && BUILD_META.channel !== "edge") {
       import("@/lib/update")
         .then(({ checkForUpdate }) =>
           checkForUpdate(BUILD_META.version, { channel: config.upgrade.channel }).then(

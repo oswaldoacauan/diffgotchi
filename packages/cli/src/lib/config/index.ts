@@ -114,7 +114,7 @@ export function normalizeConfig(parsed: Record<string, unknown>): DiffgotchiConf
     upgrade: {
       auto: typeof upgrade.auto === "boolean" ? upgrade.auto : d.upgrade.auto,
       channel:
-        upgrade.channel === "stable" || upgrade.channel === "canary"
+        upgrade.channel === "stable" || upgrade.channel === "edge"
           ? upgrade.channel
           : d.upgrade.channel,
     },

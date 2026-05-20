@@ -92,15 +92,14 @@ export interface UpdateInfo {
 }
 
 interface CheckOptions {
-  channel?: "stable" | "canary";
+  channel?: "stable" | "edge";
   force?: boolean;
 }
 
 async function fetchRelease(
-  channel: "stable" | "canary",
+  channel: "stable" | "edge",
 ): Promise<{ version: string; assets: ReleaseAsset[] } | null> {
-  const url =
-    channel === "canary" ? `${API_BASE}/releases/tags/canary` : `${API_BASE}/releases/latest`;
+  const url = channel === "edge" ? `${API_BASE}/releases/tags/edge` : `${API_BASE}/releases/latest`;
 
   const res = await fetch(url, {
     signal: AbortSignal.timeout(5000),
@@ -115,7 +114,7 @@ async function fetchRelease(
   };
 
   let version: string | undefined;
-  if (channel === "canary") {
+  if (channel === "edge") {
     const match = data.name?.match(/\(([^)]+)\)/);
     version = match?.[1];
   } else {
@@ -142,7 +141,7 @@ export async function checkForUpdate(
 
   if (
     !options?.force &&
-    channel !== "canary" &&
+    channel !== "edge" &&
     state.lastCheck &&
     now - state.lastCheck < CHECK_INTERVAL_STABLE_MS
   ) {
@@ -164,7 +163,7 @@ export async function checkForUpdate(
     saveUpdateState({ ...state, lastCheck: now, latestVersion: release.version });
 
     const isNewer =
-      channel === "canary"
+      channel === "edge"
         ? release.version !== currentVersion
         : compareVersions(release.version, currentVersion) > 0;
 
@@ -182,7 +181,7 @@ export async function checkForUpdate(
 }
 
 export function shouldNotifyUpdateAvailable(info: UpdateInfo, now = Date.now()): boolean {
-  if (BUILD_META.channel === "canary") return false;
+  if (BUILD_META.channel === "edge") return false;
 
   const state = loadUpdateState();
   const sameVersion = state.notifiedVersion === info.latest;
@@ -214,9 +213,8 @@ function getAssetName(): string {
   return name;
 }
 
-async function fetchAssets(channel: "stable" | "canary"): Promise<ReleaseAsset[]> {
-  const url =
-    channel === "canary" ? `${API_BASE}/releases/tags/canary` : `${API_BASE}/releases/latest`;
+async function fetchAssets(channel: "stable" | "edge"): Promise<ReleaseAsset[]> {
+  const url = channel === "edge" ? `${API_BASE}/releases/tags/edge` : `${API_BASE}/releases/latest`;
 
   const res = await fetch(url, {
     signal: AbortSignal.timeout(10000),

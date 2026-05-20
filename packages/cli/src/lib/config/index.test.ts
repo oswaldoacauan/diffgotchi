@@ -15,7 +15,7 @@ describe("config", () => {
         general: { theme: "dracula" },
         display: { wrap: "none" },
         diff: { context_lines: 10 },
-        upgrade: { channel: "canary" },
+        upgrade: { channel: "edge" },
         keybinds: { "global.quit": "ctrl+c", "diff.scroll_top": "g g" },
       }),
     ).toEqual({
@@ -23,7 +23,7 @@ describe("config", () => {
       general: { ...DEFAULT_CONFIG.general, theme: "dracula" },
       display: { ...DEFAULT_CONFIG.display, wrap: "none" },
       diff: { ...DEFAULT_CONFIG.diff, context_lines: 10 },
-      upgrade: { ...DEFAULT_CONFIG.upgrade, channel: "canary" },
+      upgrade: { ...DEFAULT_CONFIG.upgrade, channel: "edge" },
       keybinds: { ...DEFAULT_CONFIG.keybinds, "global.quit": "ctrl+c", "diff.scroll_top": "g g" },
     });
   });

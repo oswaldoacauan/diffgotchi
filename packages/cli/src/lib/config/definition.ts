@@ -1,6 +1,6 @@
 export const CONFIG_SCHEMA_URL = "https://diffgotchi.dev/schemas/config.json";
 
-export type UpgradeChannel = "stable" | "canary";
+export type UpgradeChannel = "stable" | "edge";
 export type ViewMode = "split" | "unified" | "auto";
 export type WrapMode = "word" | "char" | "none";
 export type Indicators = "classic" | "none";

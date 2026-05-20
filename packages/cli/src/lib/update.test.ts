@@ -47,8 +47,8 @@ describe("update notifications", () => {
     );
   });
 
-  test("does not notify from canary builds", () => {
-    BUILD_META.channel = "canary";
+  test("does not notify from edge builds", () => {
+    BUILD_META.channel = "edge";
 
     expect(shouldNotifyUpdateAvailable(updateInfo, Date.UTC(2026, 4, 12))).toBe(false);
   });

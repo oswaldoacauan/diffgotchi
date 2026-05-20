@@ -1,11 +1,11 @@
-name: 🐤 Canary
+name: 🌊 Edge
 
 on:
   push:
     branches: [main]
 
 concurrency:
-  group: canary
+  group: edge
   cancel-in-progress: true
 
 permissions:
@@ -33,14 +33,14 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
-      - name: Compute canary version
+      - name: Compute edge version
         run: |
           BASE=$(jq -r '.version' packages/cli/package.json)
           SHA=$(git rev-parse --short HEAD)
-          VERSION="${BASE}-canary.${SHA}"
+          VERSION="${BASE}-edge.${SHA}"
           echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
 
-      - name: Set canary version
+      - name: Set edge version
         run: |
           cd packages/cli
           jq --arg v "${{ env.VERSION }}" '.version = $v' package.json > tmp.json && mv tmp.json package.json
@@ -50,7 +50,7 @@ jobs:
           cat > packages/cli/src/lib/build-meta.ts << 'METAEOF'
           export const BUILD_META = {
             version: "${{ env.VERSION }}",
-            channel: "canary" as "stable" | "canary",
+            channel: "edge" as "stable" | "edge",
             repo: "oswaldoacauan/diffgotchi",
           };
           METAEOF
@@ -64,7 +64,7 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: diffgotchi-canary-${{ matrix.target }}
+          name: diffgotchi-edge-${{ matrix.target }}
           path: packages/cli/diffgotchi-${{ matrix.target }}.tar.gz
 
   release:
@@ -82,18 +82,18 @@ jobs:
         run: |
           BASE=$(jq -r '.version' packages/cli/package.json)
           SHA=$(git rev-parse --short HEAD)
-          echo "VERSION=${BASE}-canary.${SHA}" >> "$GITHUB_ENV"
+          echo "VERSION=${BASE}-edge.${SHA}" >> "$GITHUB_ENV"
 
-      - name: Delete old canary release
-        run: gh release delete canary --yes --cleanup-tag 2>/dev/null || true
+      - name: Delete old edge release
+        run: gh release delete edge --yes --cleanup-tag 2>/dev/null || true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create canary release
+      - name: Create edge release
         run: |
-          gh release create canary artifacts/*.tar.gz \
-            --title "Canary (${{ env.VERSION }})" \
+          gh release create edge artifacts/*.tar.gz \
+            --title "Edge (${{ env.VERSION }})" \
             --prerelease \
-            --notes "Canary build from main ($(git rev-parse --short HEAD))"
+            --notes "Edge build from main ($(git rev-parse --short HEAD))"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

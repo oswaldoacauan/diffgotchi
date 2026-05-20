@@ -6,7 +6,7 @@ export function createUpgradeCommands() {
 
   cli
     .command("upgrade", "Update diffgotchi to the latest version")
-    .option("--channel <channel>", "Update channel: stable or canary")
+    .option("--channel <channel>", "Update channel: stable or edge")
     .action(async (options: { channel?: string }) => {
       const { loadConfig } = await import("@/lib/config");
       const { checkForUpdate } = await import("@/lib/update");
@@ -14,7 +14,7 @@ export function createUpgradeCommands() {
 
       const config = loadConfig();
       const channel =
-        (options.channel as "stable" | "canary") ?? config.upgrade.channel ?? BUILD_META.channel;
+        (options.channel as "stable" | "edge") ?? config.upgrade.channel ?? BUILD_META.channel;
 
       console.log(`Checking for updates on ${channel} channel...`);
       const info = await checkForUpdate(BUILD_META.version, { channel, force: true });

@@ -102,7 +102,7 @@ jobs:
           cat > packages/cli/src/lib/build-meta.ts << METAEOF
           export const BUILD_META = {
             version: "${VERSION}",
-            channel: "stable" as "stable" | "canary",
+            channel: "stable" as "stable" | "edge",
             repo: "oswaldoacauan/diffgotchi",
           };
           METAEOF
