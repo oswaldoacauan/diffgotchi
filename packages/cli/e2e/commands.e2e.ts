@@ -2,6 +2,7 @@ import { expect, test } from "bun:test";
 import { existsSync } from "fs";
 import {
   createFullFixture,
+  createSingleFileFixture,
   key,
   pilottyBin,
   spawnDiffgotchi,
@@ -37,4 +38,15 @@ test("commands: opens palette actions and help dialogs", async () => {
 
   const screen = await textSnapshot(session);
   expect(screen).toContain("Version");
+}, 45_000);
+
+test("commands: shows an error toast when edit file fails", async () => {
+  expect(existsSync(pilottyBin), "Run `bun install` before `bun run test:e2e`.").toBe(true);
+
+  const fixture = createSingleFileFixture();
+  const session = await spawnDiffgotchi(fixture, { editor: "false" });
+
+  await waitFor(session, "only.ts");
+  await key(session, "Ctrl+G");
+  await waitFor(session, "Failed to open editor 'false' (exit code 1)");
 }, 45_000);

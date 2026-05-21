@@ -23,6 +23,7 @@ export interface Fixture {
 interface SpawnOptions {
   args?: string[];
   context?: number;
+  editor?: string;
 }
 
 interface PilottySnapshot {
@@ -47,7 +48,7 @@ export async function spawnDiffgotchi(
     .slice(2)}`;
   sessions.add(session);
 
-  writeConfig(fixture.home);
+  writeConfig(fixture.home, options.editor);
 
   runPilotty(
     [
@@ -226,12 +227,12 @@ function commitFixtureBaseline(repo: string): void {
   ]);
 }
 
-function writeConfig(home: string): void {
+function writeConfig(home: string, editor = "true"): void {
   write(
     join(home, ".config", "diffgotchi", "config.json"),
     `${JSON.stringify(
       {
-        general: { theme: "github", editor: "true", mouse: true },
+        general: { theme: "github", editor, mouse: true },
         upgrade: { auto: false },
         keybinds: {
           "global.help_keybinds": "?",

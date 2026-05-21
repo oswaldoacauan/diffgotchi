@@ -28,7 +28,7 @@ import { useKeybind } from "@/providers/keybind";
 import { useToast } from "@/providers/toast";
 import { getFileName } from "@/lib/git/parse";
 import { loadConfig, saveConfig, CONFIG_PATH } from "@/lib/config";
-import { openInEditor } from "@/util/editor";
+import { editorCommandName, openInEditor } from "@/util/editor";
 import { FilePickerDialog } from "@/components/dialogs/file-picker";
 import { ThemePickerDialog } from "@/components/dialogs/theme-picker";
 import { AboutDialog } from "@/components/dialogs/about";
@@ -76,10 +76,11 @@ export function useAppCommands(refs: UseAppCommandsRefs) {
     const f = parsedFiles[idx];
     if (!f) return;
     const config = loadConfig();
-    const result = openInEditor(getFileName(f), config.general.editor || undefined);
-    if (!result.success && result.error) {
-      toast.show(result.error, "error");
-    }
+    void openInEditor(getFileName(f), config.general.editor || undefined).then((result) => {
+      if (!result.success && result.error) {
+        toast.show(result.error, "error");
+      }
+    });
   }, [toast]);
 
   const openCommentsDialog = React.useCallback(() => {
@@ -147,10 +148,11 @@ export function useAppCommands(refs: UseAppCommandsRefs) {
 
   const openConfigFile = React.useCallback(() => {
     const config = loadConfig();
-    const result = openInEditor(CONFIG_PATH, config.general.editor || undefined);
-    if (!result.success && result.error) {
-      toast.show(result.error, "error");
-    }
+    void openInEditor(CONFIG_PATH, config.general.editor || undefined).then((result) => {
+      if (!result.success && result.error) {
+        toast.show(result.error, "error");
+      }
+    });
   }, [toast]);
 
   const toggleMouse = React.useCallback(() => {
@@ -195,14 +197,7 @@ export function useAppCommands(refs: UseAppCommandsRefs) {
       return [
         {
           title: "Edit file",
-          description:
-            "open in " +
-            (
-              loadConfig().general.editor ||
-              process.env["VISUAL"] ||
-              process.env["EDITOR"] ||
-              "vi"
-            ).split(/\s+/)[0],
+          description: "open in " + editorCommandName(loadConfig().general.editor || undefined),
           value: "file.edit",
           keybind: "diff.edit_file",
           category: "Actions",
