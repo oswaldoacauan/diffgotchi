@@ -1,5 +1,13 @@
 # @diffgotchi/cli
 
+## 0.0.3
+
+### Patch Changes
+
+- fix: report edit file launch failures
+
+- [`ea44946`](https://github.com/oswaldoacauan/diffgotchi/commit/ea449462ae24684f03e37caf699f0a5dcbed9a2d) Thanks [@oswaldoacauan](https://github.com/oswaldoacauan)! - Show an error toast when the edit file command fails to launch the configured editor.
+
 ## 0.0.2
 
 ### Patch Changes
