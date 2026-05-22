@@ -226,27 +226,33 @@ async function runTui(
     appStore.set(setReviewSessionAtom, reviewSession);
     saveActiveReviewSessionId(reviewSession.id);
 
-    if (config.upgrade.auto && !process.env.DIFFGOTCHI_NO_UPDATE && BUILD_META.channel !== "edge") {
+    if (!process.env.DIFFGOTCHI_NO_UPDATE) {
       import("@/lib/update")
         .then(({ checkForUpdate }) =>
           checkForUpdate(BUILD_META.version, { channel: config.upgrade.channel }).then(
             async (info) => {
               if (!info?.available) return;
-              try {
-                const { performUpgrade } = await import("@/lib/update");
-                await performUpgrade(info);
-                appStore.set(queueToastAtom, {
-                  message: `Updated to v${info.latest}. Restart.`,
-                  variant: "success",
-                });
-              } catch {
-                const { shouldNotifyUpdateAvailable } = await import("@/lib/update");
-                if (shouldNotifyUpdateAvailable(info)) {
+
+              if (config.upgrade.auto) {
+                try {
+                  const { performUpgrade } = await import("@/lib/update");
+                  await performUpgrade(info);
                   appStore.set(queueToastAtom, {
-                    message: `v${info.latest} available. Run diffgotchi upgrade.`,
-                    variant: "info",
+                    message: `Updated to v${info.latest}. Restart.`,
+                    variant: "success",
                   });
+                  return;
+                } catch {
+                  // Fall through to the notification path when auto-upgrade fails.
                 }
+              }
+
+              const { shouldNotifyUpdateAvailable } = await import("@/lib/update");
+              if (shouldNotifyUpdateAvailable(info)) {
+                appStore.set(queueToastAtom, {
+                  message: `v${info.latest} available. Run diffgotchi upgrade.`,
+                  variant: "info",
+                });
               }
             },
           ),

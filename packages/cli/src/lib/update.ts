@@ -18,6 +18,7 @@ interface UpdateState {
   latestVersion?: string;
   lastNotification?: number;
   notifiedVersion?: string;
+  channel?: "stable" | "edge";
 }
 
 function loadUpdateState(): UpdateState {
@@ -51,6 +52,7 @@ function toStoredUpdateState(state: UpdateState): Record<string, unknown> {
       ? { last_notification: state.lastNotification }
       : {}),
     ...(state.notifiedVersion ? { notified_version: state.notifiedVersion } : {}),
+    ...(state.channel ? { channel: state.channel } : {}),
   };
 }
 
@@ -61,11 +63,13 @@ function normalizeUpdateState(value: unknown): UpdateState {
   const latestVersion = record.latest_version;
   const lastNotification = record.last_notification;
   const notifiedVersion = record.notified_version;
+  const channel = record.channel;
   return {
     ...(typeof lastCheck === "number" ? { lastCheck } : {}),
     ...(typeof latestVersion === "string" ? { latestVersion } : {}),
     ...(typeof lastNotification === "number" ? { lastNotification } : {}),
     ...(typeof notifiedVersion === "string" ? { notifiedVersion } : {}),
+    ...(channel === "stable" || channel === "edge" ? { channel } : {}),
   };
 }
 
@@ -89,6 +93,7 @@ export interface UpdateInfo {
   current: string;
   latest: string;
   assets: ReleaseAsset[];
+  channel: "stable" | "edge";
 }
 
 interface CheckOptions {
@@ -141,18 +146,11 @@ export async function checkForUpdate(
 
   if (
     !options?.force &&
+    state.channel === channel &&
     channel !== "edge" &&
     state.lastCheck &&
     now - state.lastCheck < CHECK_INTERVAL_STABLE_MS
   ) {
-    if (state.latestVersion && compareVersions(state.latestVersion, currentVersion) > 0) {
-      return {
-        available: true,
-        current: currentVersion,
-        latest: state.latestVersion,
-        assets: [],
-      };
-    }
     return null;
   }
 
@@ -160,7 +158,7 @@ export async function checkForUpdate(
     const release = await fetchRelease(channel);
     if (!release) return null;
 
-    saveUpdateState({ ...state, lastCheck: now, latestVersion: release.version });
+    saveUpdateState({ ...state, lastCheck: now, latestVersion: release.version, channel });
 
     const isNewer =
       channel === "edge"
@@ -173,6 +171,7 @@ export async function checkForUpdate(
         current: currentVersion,
         latest: release.version,
         assets: release.assets,
+        channel,
       };
     }
   } catch {}
@@ -181,8 +180,6 @@ export async function checkForUpdate(
 }
 
 export function shouldNotifyUpdateAvailable(info: UpdateInfo, now = Date.now()): boolean {
-  if (BUILD_META.channel === "edge") return false;
-
   const state = loadUpdateState();
   const sameVersion = state.notifiedVersion === info.latest;
   const recentlyNotified =
@@ -247,7 +244,7 @@ async function downloadAndExtract(url: string, destDir: string): Promise<string>
 
 export async function performUpgrade(info?: UpdateInfo): Promise<void> {
   const assetName = getAssetName();
-  const channel = BUILD_META.channel;
+  const channel = info?.channel ?? BUILD_META.channel;
 
   let assets = info?.assets ?? [];
   if (assets.length === 0) {
