@@ -1,5 +1,11 @@
 # @diffgotchi/cli
 
+## 0.0.4
+
+### Patch Changes
+
+- fix: correct startup update checks
+
 ## 0.0.3
 
 ### Patch Changes
